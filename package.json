@@ -1,7 +1,7 @@
 {
   "name": "gatsby-plugin-ical",
   "description": "iCal generator for Gatsby",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Arn van der Pluijm <arn@urbanlink.nl> (https://urbanlink.nl",
   "bugs": {
     "url": "https://gitlab.com/urbanlink/gatsby-plugin-ical/issues"
