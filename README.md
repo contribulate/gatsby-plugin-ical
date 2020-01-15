@@ -1,26 +1,46 @@
-## Description
-Include a summary of what this plugin accomplishes. Is there a demo site that shows how this plugin operates? If so, include a link to the deployed demo site and/or its source code here.
-Themes are considered plugins in the Gatsby ecosystem and should follow this README as well. Note that themes include multiple READMEs. One inside the theme directory with configuration instructions, one inside the example project directory, and one in the root of the repository which will follow this guide.
+# gatsby-plugin-ical
+Create an iCalendar feed for the events in your GatsbyJS site. 
+
+_NOTE: This plugin is an early release. It works, but is relying on predefined node specifications. This plugin is not suitable for production yet, unless your event-node matches. `_
+
+## Install
+
+`npm install --save gatsby-plugin-ical`
+
 ### Dependencies (optional)
-Are there any plugins that must be installed in order to make this plugin work? If so, please include a list of those plugins and links to their pages here.
-### Learning Resources (optional)
-If there are other tutorials, docs, and learning resources that are necessary or helpful to someone using this plugin, please link to those here.
-## How to install
-Please include installation instructions here.
-Gatsby documentation uses `npm` for installation. This is the recommended approach for plugins as well.
-If the plugin is a theme that needs to use `yarn`, please point to [the documentation for switching package managers](/docs/gatsby-cli/#how-to-change-your-default-package-manager-for-your-next-project) in addition to the `yarn`-based instructions.
-## Available options (if any)
+This plugin makes use of MomentJS for data handling. 
+Under the hood ical-generator is used for creating the iCalendar file. 
+
+## Available options
+```javascript
+// In your gatsby-config.js
+plugins: [{
+    resolve: `gatsby-plugin-ical`,
+    options: {
+        filename: 'calendar.ics',
+        domain: '',
+        calendar: {
+            filename: `calendar.ics`,
+            prodId: '//Organization//Calendar//EN',
+            domain: 'domain.com', 
+            name: 'Calendar',
+            url: 'https://domain.com/calendar.ics',
+            scale: 'gregorian',
+            timezone: 'Europe/Amsterdam',
+            ttl: 60*60*24,
+        },
+        event: {
+            uid: 'id',
+            start: 'start',
+            end: 'end',
+            summary: 'summary',
+            description: 'description',
+            location: 'location',
+            url: 'url'
+        }
+    }
+}]
+```
+
 ## When do I use this plugin?
-Include stories about when this plugin is helpful and/or necessary.
-## Examples of usage
-This usually shows a code example showing how to include this plugin in a site's `config.js` file.
-    code example
-//See this [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code) on how to format code examples.
-This section could also include before-and-after examples of data when the plugin is enabled, if applicable.
-## How to query for data (source plugins only)
-If this is a source plugin README, source plugins ought to allow people to query for data within their Gatsby site. Please include code examples to show how to query for data using your source plugin.
-If this is a theme that requires data in a specific format in order to match an existing query, include those examples here.
-## How to run tests
-## How to develop locally
-## How to contribute
-If you have unanswered questions, would like help with enhancing or debugging the plugin, it is nice to include instructions for people who want to contribute to your plugin.
+This plugin creates an iCalendar file in your public folder with the events on your GatsbyJS site. On each build, all events are queried and transformed into an calendar.ics file. The link to this file is the URL for a calendar. 
