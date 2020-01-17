@@ -1,3 +1,7 @@
 /*.js
 !index.js
 node_modules
+/*.js
+!index.js
+.DS_Store
+.vscode

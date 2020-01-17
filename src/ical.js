@@ -1,29 +1,31 @@
 import moment from 'moment' 
 import ical from 'ical-generator'
 
-const GetCalendar = (events, options={}) => {
+const GetCalendar = (events, options) => {
   
+  const { prodId, domain, name, url, scale, timezone, ttl } = options.calendar; 
+
   // Create base calendar 
   const cal = ical({
-    prodId: '//Haagse Makers//Community calendar//NL',
-    domain: 'haagsemakers.nl', 
-    name: 'Haagsemakers Community Calendar',
-    url: 'https://haagsemakers.nl/community-calendar.ics',
-    scale: 'gregorian',
-    timezone: 'Europe/Amsterdam',
-    ttl: 60*60*24, 
+    prodId,
+    domain, 
+    name,
+    url,
+    scale,
+    timezone,
+    ttl
   });
 
   // Create events 
-  events.map((event,index) => {
+  events.map((event) => {
     cal.createEvent({
-      uid: event.id,
-      start: moment(event.start),
-      end: moment(event.end),
-      summary: event.summary,
-      description: event.description,
-      location: event.location,
-      url: event.url
+      uid         : event[ options.event.uid],
+      start       : moment(event[ options.event.start]),
+      end         : moment(event[ options.event.end]),
+      summary     : event[ options.event.summary],
+      description : event[ options.event.description],
+      location    : event[ options.event.location],
+      url         : event[ options.event.url]
     }); 
   })
 

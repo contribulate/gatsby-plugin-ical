@@ -7,7 +7,7 @@ import {GetCalendar} from './ical'
 const publicPath = `./public`
 
 const onCreatePages = async({ graphql }, pluginOptions) => {
-
+  console.log('onCreatePages');
   const options = {
     ...defaultOptions,
     ...pluginOptions,
@@ -17,19 +17,17 @@ const onCreatePages = async({ graphql }, pluginOptions) => {
   const events = await runQuery(graphql, options.query, options)
 
   // Parse events into ical file
-  const iCalString = GetCalendar(events); 
+  const iCalString = GetCalendar(events, options); 
 
   // Create file
-  const outputPath = path.join(publicPath, options.outputFilename)
+  const outputPath = path.join(publicPath, options.filename)
   const outputDir = path.dirname(outputPath)
   if (!(await fs.exists(outputDir))) {
     await fs.mkdirp(outputDir)
   }
+
   // Save the file
   await fs.writeFile(outputPath, iCalString)
-
 }
 
 exports.createPages= onCreatePages;
-
-// https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-plugin-sitemap/src/gatsby-node.js

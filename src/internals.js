@@ -12,7 +12,7 @@ export const runQuery = (handler, query, options) =>
     
     // Serialize the output 
     const edges = r.data.allMarkdownRemark.edges
-    const siteUrl = r.data.site.siteMetadata.siteUrl
+    const domain = options.domain
 
     if (!edges || edges.length<1) {
       console.log('no edges');
@@ -27,7 +27,7 @@ export const runQuery = (handler, query, options) =>
         end: node.frontmatter.end, 
         summary: node.frontmatter.title,
         description: node.excerpt,
-        url: siteUrl + node.frontmatter.path
+        url: domain + node.frontmatter.path
       }
       events.push(e)
     })
@@ -41,8 +41,7 @@ export const runQuery = (handler, query, options) =>
  * 
  */
 export const defaultOptions = {
-  query: `
-    {
+  query: `{
     allMarkdownRemark(filter: {
       frontmatter: {
         type: {eq: "event"}
@@ -61,11 +60,26 @@ export const defaultOptions = {
         }
       }
     }
-    site {
-      siteMetadata {
-        siteUrl
-      }
-    }
   }`,
-  outputFilename: `community-calendar.ical`,
+  filename: 'calendar.ics',
+  domain: '',
+  calendar: {
+    filename: `calendar.ics`,
+    prodId: '//Organization//Calendar//EN',
+    domain: 'domain.com', 
+    name: 'Calendar',
+    url: 'https://domain.com/calendar.ics',
+    scale: 'gregorian',
+    timezone: 'Europe/Amsterdam',
+    ttl: 60*60*24,
+  },
+  event: {
+    uid: 'id',
+    start: 'start',
+    end: 'end',
+    summary: 'summary',
+    description: 'description',
+    location: 'location',
+    url: 'url'
+  }
 }
